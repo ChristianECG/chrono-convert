@@ -1,4 +1,4 @@
-# Chrono-Convert
+# Chrono Convert
 
 Effortlessly manipulate and convert time units with Chrono-Convert, the JavaScript library offering a fluent, chainable interface for clear and precise time calculations. Perfect for adding sophisticated time-based logic to your applications with ease and elegance.
 
@@ -11,7 +11,7 @@ Effortlessly manipulate and convert time units with Chrono-Convert, the JavaScri
 
 ## Installation
 
-Install Chrono-Convert with npm:
+Install `chrono-convert` using your preferred package manager.
 
 ```bash
 # With npm
