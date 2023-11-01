@@ -1,9 +1,9 @@
 {
   "name": "chrono-convert",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Effortlessly manipulate and convert time units with Chrono: a fluent, chainable interface for clear and precise time calculations. Perfect for adding time-based logic to your applications with just a few lines of code.",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
@@ -40,5 +40,8 @@
     "rimraf": "5.0.5",
     "tsup": "7.2.0",
     "typescript": "5.2.2"
-  }
+  },
+  "repository": "https://github.com/angelozdev/chrono-convert",
+  "type": "module",
+  "sideEffects": false
 }
