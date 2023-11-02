@@ -48,14 +48,18 @@ import chrono from "chrono-convert";
 
 ```javascript
 const time = chrono.minutes(5).add(50, "minutes").toSeconds();
+const time = chrono.from(5, "minutes").add(50, "minutes").to("seconds");
 console.log(time); // 3300
 
 const time = chrono.hours(2).add(30, "minutes").toMinutes();
+const time = chrono.from(2, "hours").add(30, "minutes").to("minutes");
 console.log(time); // 150
 
 const time = chrono.seconds(120).subtract(30, "seconds").toMinutes();
+const time = chrono.from(120, "seconds").subtract(30, "seconds").to("minutes");
 console.log(time); // 1.5
 
 const time = chrono.seconds(120).subtract(30, "seconds").toHours();
+const time = chrono.from(120, "seconds").subtract(30, "seconds").to("hours");
 console.log(time); // 0.025
 ```

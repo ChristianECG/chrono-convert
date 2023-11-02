@@ -5,3 +5,4 @@ export const DAY = 24 * HOUR;
 export const WEEK = 7 * DAY;
 export const YEAR = 365 * DAY;
 export const MONTH = YEAR / 12;
+export const QUARTER = YEAR / 4;

@@ -1,4 +1,4 @@
-import { MINUTE, DAY, HOUR, MONTH, WEEK, YEAR } from "./constants";
+import { MINUTE, DAY, HOUR, MONTH, WEEK, YEAR, QUARTER } from "./constants";
 import type { Unit } from "./types";
 
 /**
@@ -55,18 +55,6 @@ class ChronoConvert {
   }
 
   /**
-   * Creates a ChronoConvert instance from seconds.
-   * @param {number} value - The number of seconds.
-   * @returns {ChronoConvert} - New instance of ChronoConvert.
-   * @example
-   * const time = ChronoConvert.s(5);
-   * console.log(time.toSeconds()); // Outputs 5
-   */
-  static s(value: number): ChronoConvert {
-    return ChronoConvert.seconds(value);
-  }
-
-  /**
    * Creates a ChronoConvert instance from minutes.
    * @param {number} value - The number of minutes.
    * @returns {ChronoConvert} - New instance of ChronoConvert.
@@ -76,18 +64,6 @@ class ChronoConvert {
    */
   static minutes(value: number): ChronoConvert {
     return new ChronoConvert(value * MINUTE);
-  }
-
-  /**
-   * Creates a ChronoConvert instance from minutes.
-   * @param {number} value - The number of minutes.
-   * @returns {ChronoConvert} - New instance of ChronoConvert.
-   * @example
-   * const time = ChronoConvert.min(5);
-   * console.log(time.toSeconds()); // Outputs 300
-   */
-  static min(value: number): ChronoConvert {
-    return ChronoConvert.minutes(value);
   }
 
   /**
@@ -103,30 +79,6 @@ class ChronoConvert {
   }
 
   /**
-   * Creates a ChronoConvert instance from hours.
-   * @param {number} value - The number of hours.
-   * @returns {ChronoConvert} - New instance of ChronoConvert.
-   * @example
-   * const time = ChronoConvert.hr(5);
-   * console.log(time.toSeconds()); // Outputs 18000
-   */
-  static hr(value: number): ChronoConvert {
-    return ChronoConvert.hours(value);
-  }
-
-  /**
-   * Creates a ChronoConvert instance from hours.
-   * @param {number} value - The number of hours.
-   * @returns {ChronoConvert} - New instance of ChronoConvert.
-   * @example
-   * const time = ChronoConvert.h(5);
-   * console.log(time.toSeconds()); // Outputs 18000
-   */
-  static h(value: number): ChronoConvert {
-    return ChronoConvert.hours(value);
-  }
-
-  /**
    * Creates a ChronoConvert instance from days.
    * @param {number} value - The number of days.
    * @returns {ChronoConvert} - New instance of ChronoConvert.
@@ -136,18 +88,6 @@ class ChronoConvert {
    */
   static days(value: number): ChronoConvert {
     return new ChronoConvert(value * DAY);
-  }
-
-  /**
-   * Creates a ChronoConvert instance from days.
-   * @param {number} value - The number of days.
-   * @returns {ChronoConvert} - New instance of ChronoConvert.
-   * @example
-   * const time = ChronoConvert.d(5);
-   * console.log(time.toSeconds()); // Outputs 432000
-   */
-  static d(value: number): ChronoConvert {
-    return ChronoConvert.days(value);
   }
 
   /**
@@ -163,30 +103,6 @@ class ChronoConvert {
   }
 
   /**
-   * Creates a ChronoConvert instance from weeks.
-   * @param {number} value - The number of weeks.
-   * @returns {ChronoConvert} - New instance of ChronoConvert.
-   * @example
-   * const time = ChronoConvert.wk(5);
-   * console.log(time.toSeconds()); // Outputs 3024000
-   */
-  static wk(value: number): ChronoConvert {
-    return ChronoConvert.weeks(value);
-  }
-
-  /**
-   * Creates a ChronoConvert instance from weeks.
-   * @param {number} value - The number of weeks.
-   * @returns {ChronoConvert} - New instance of ChronoConvert.
-   * @example
-   * const time = ChronoConvert.w(5);
-   * console.log(time.toSeconds()); // Outputs 3024000
-   */
-  static w(value: number): ChronoConvert {
-    return ChronoConvert.weeks(value);
-  }
-
-  /**
    * Creates a ChronoConvert instance from months.
    * @param {number} value - The number of months.
    * @returns {ChronoConvert} - New instance of ChronoConvert.
@@ -199,15 +115,15 @@ class ChronoConvert {
   }
 
   /**
-   * Creates a ChronoConvert instance from months.
-   * @param {number} value - The number of months.
+   * Creates a ChronoConvert instance from quarters.
+   * @param {number} value - The number of quarters.
    * @returns {ChronoConvert} - New instance of ChronoConvert.
    * @example
-   * const time = ChronoConvert.mo(5);
-   * console.log(time.toSeconds()); // Outputs 13140000
+   * const time = ChronoConvert.quarters(5);
+   * console.log(time.toSeconds()); // Outputs 78840000
    */
-  static mo(value: number): ChronoConvert {
-    return ChronoConvert.months(value);
+  static quarters(value: number): ChronoConvert {
+    return new ChronoConvert(value * MONTH * 3);
   }
 
   /**
@@ -223,19 +139,33 @@ class ChronoConvert {
   }
 
   /**
-   * Creates a ChronoConvert instance from years.
-   * @param {number} value - The number of years.
-   * @returns {ChronoConvert} - New instance of ChronoConvert.
    * @example
-   * const time = ChronoConvert.yr(5);
-   * console.log(time.toSeconds()); // Outputs 157680000
+   * const time = ChronoConvert.from(1500, 'seconds');
+   * console.log(time.toSeconds()); // Outputs 1500
    */
-  static yr(value: number): ChronoConvert {
-    return ChronoConvert.years(value);
+  static from(value: number, unit: Unit) {
+    return new ChronoConvert(ChronoConvert.getValueByUnit(value, unit));
   }
 
   private fixValue(value: number): number {
     return Math.round(value * 10000) / 10000;
+  }
+
+  private static getValueByUnit(value: number, unit: Unit): number {
+    const valueByUnit: Record<Unit, number> = {
+      milliseconds: value / 1000,
+      ms: value / 1000,
+      seconds: value,
+      minutes: value * MINUTE,
+      hours: value * HOUR,
+      days: value * DAY,
+      weeks: value * WEEK,
+      months: value * MONTH,
+      quarters: value * QUARTER,
+      years: value * YEAR,
+    };
+
+    return valueByUnit[unit];
   }
 
   /**
@@ -244,18 +174,9 @@ class ChronoConvert {
    * console.log(time.toSeconds()); // Outputs 305
    */
   add(value: number, unit: Unit): ChronoConvert {
-    const valueByUnit: Record<Unit, number> = {
-      milliseconds: value / 1000,
-      seconds: value,
-      minutes: value * MINUTE,
-      hours: value * HOUR,
-      days: value * DAY,
-      weeks: value * WEEK,
-      months: value * MONTH,
-      years: value * YEAR,
-    };
-
-    return new ChronoConvert(this.value + valueByUnit[unit]);
+    return new ChronoConvert(
+      this.value + ChronoConvert.getValueByUnit(value, unit)
+    );
   }
 
   /**
@@ -264,18 +185,39 @@ class ChronoConvert {
    * console.log(time.toSeconds()); // Outputs 295
    */
   subtract(value: number, unit: Unit): ChronoConvert {
+    return new ChronoConvert(
+      this.value - ChronoConvert.getValueByUnit(value, unit)
+    );
+  }
+
+  multiply(value: number): ChronoConvert {
+    return new ChronoConvert(this.value * value);
+  }
+
+  divide(value: number): ChronoConvert {
+    return new ChronoConvert(this.value / value);
+  }
+
+  /**
+   * @example
+   * const time = ChronoConvert.minutes(5).to('seconds');
+   * console.log(time); // Outputs 300
+   */
+  to(unit: Unit): number {
     const valueByUnit: Record<Unit, number> = {
-      milliseconds: value / 1000,
-      seconds: value,
-      minutes: value * MINUTE,
-      hours: value * HOUR,
-      days: value * DAY,
-      weeks: value * WEEK,
-      months: value * MONTH,
-      years: value * YEAR,
+      milliseconds: this.toMilliseconds(),
+      ms: this.toMilliseconds(),
+      seconds: this.toSeconds(),
+      minutes: this.toMinutes(),
+      hours: this.toHours(),
+      days: this.toDays(),
+      weeks: this.toWeeks(),
+      months: this.toMonths(),
+      quarters: this.toQuarters(),
+      years: this.toYears(),
     };
 
-    return new ChronoConvert(this.value - valueByUnit[unit]);
+    return valueByUnit[unit];
   }
 
   /**
@@ -312,17 +254,6 @@ class ChronoConvert {
   }
 
   /**
-   * Converts the time to seconds.
-   * @returns {number} - The time in seconds.
-   * @example
-   * const time = ChronoConvert.minutes(2);
-   * console.log(time.toS()); // Outputs 120
-   */
-  toS(): number {
-    return this.toSeconds();
-  }
-
-  /**
    * Converts the time to minutes.
    * @returns {number} - The time in minutes.
    * @example
@@ -331,17 +262,6 @@ class ChronoConvert {
    */
   toMinutes(): number {
     return this.fixValue(this.value / MINUTE);
-  }
-
-  /**
-   * Converts the time to minutes.
-   * @returns {number} - The time in minutes.
-   * @example
-   * const time = ChronoConvert.seconds(120);
-   * console.log(time.toMin()); // Outputs 2
-   */
-  toMin(): number {
-    return this.toMinutes();
   }
 
   /**
@@ -356,28 +276,6 @@ class ChronoConvert {
   }
 
   /**
-   * Converts the time to hours.
-   * @returns {number} - The time in hours.
-   * @example
-   * const time = ChronoConvert.seconds(7200);
-   * console.log(time.toHr()); // Outputs 2
-   */
-  toHr(): number {
-    return this.toHours();
-  }
-
-  /**
-   * Converts the time to hours.
-   * @returns {number} - The time in hours.
-   * @example
-   * const time = ChronoConvert.seconds(7200);
-   * console.log(time.toH()); // Outputs 2
-   */
-  toH(): number {
-    return this.toHours();
-  }
-
-  /**
    * Converts the time to days.
    * @returns {number} - The time in days.
    * @example
@@ -386,17 +284,6 @@ class ChronoConvert {
    */
   toDays(): number {
     return this.fixValue(this.value / DAY);
-  }
-
-  /**
-   * Converts the time to days.
-   * @returns {number} - The time in days.
-   * @example
-   * const time = ChronoConvert.seconds(172800);
-   * console.log(time.toD()); // Outputs 2
-   */
-  toD(): number {
-    return this.toDays();
   }
 
   /**
@@ -411,28 +298,6 @@ class ChronoConvert {
   }
 
   /**
-   * Converts the time to weeks.
-   * @returns {number} - The time in weeks.
-   * @example
-   * const time = ChronoConvert.seconds(1209600);
-   * console.log(time.toWk()); // Outputs 2
-   */
-  toWk(): number {
-    return this.toWeeks();
-  }
-
-  /**
-   * Converts the time to weeks.
-   * @returns {number} - The time in weeks.
-   * @example
-   * const time = ChronoConvert.seconds(1209600);
-   * console.log(time.toW()); // Outputs 2
-   */
-  toW(): number {
-    return this.toWeeks();
-  }
-
-  /**
    * Converts the time to months.
    * @returns {number} - The time in months.
    * @example
@@ -444,14 +309,14 @@ class ChronoConvert {
   }
 
   /**
-   * Converts the time to months.
-   * @returns {number} - The time in months.
+   * Converts the time to quarters.
+   * @returns {number} - The time in quarters.
    * @example
-   * const time = ChronoConvert.seconds(5256000);
-   * console.log(time.toMo()); // Outputs 2
+   * const time = ChronoConvert.seconds(15768000);
+   * console.log(time.toQuarters()); // Outputs 2
    */
-  toMo(): number {
-    return this.toMonths();
+  toQuarters(): number {
+    return this.fixValue(this.value / QUARTER);
   }
 
   /**
@@ -463,17 +328,6 @@ class ChronoConvert {
    */
   toYears(): number {
     return this.fixValue(this.value / YEAR);
-  }
-
-  /**
-   * Converts the time to years.
-   * @returns {number} - The time in years.
-   * @example
-   * const time = ChronoConvert.seconds(63072000);
-   * console.log(time.toYr()); // Outputs 2
-   */
-  toYr(): number {
-    return this.toYears();
   }
 
   toString(): string {
