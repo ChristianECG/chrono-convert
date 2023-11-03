@@ -5,42 +5,85 @@ describe("convert", () => {
   describe("milliseconds", () => {
     it("toMilliseconds", () => {
       const time = chrono.milliseconds(1000);
+      const time2 = chrono.from(1000, "milliseconds");
+
       expect(time.toMilliseconds()).toBe(1000);
+      expect(time.to("milliseconds")).toBe(1000);
+      expect(time2.toMilliseconds()).toBe(1000);
+      expect(time2.to("milliseconds")).toBe(1000);
     });
 
     it("toSeconds", () => {
       const time = chrono.milliseconds(1000);
+      const time2 = chrono.from(1000, "milliseconds");
+
       expect(time.toSeconds()).toBe(1);
+      expect(time.to("seconds")).toBe(1);
+      expect(time2.toSeconds()).toBe(1);
+      expect(time2.to("seconds")).toBe(1);
     });
 
     it("toMinutes", () => {
       const time = chrono.milliseconds(1000 * 60);
+      const time2 = chrono.from(1000 * 60, "milliseconds");
+
       expect(time.toMinutes()).toBe(1);
+      expect(time.to("minutes")).toBe(1);
+      expect(time2.toMinutes()).toBe(1);
+      expect(time2.to("minutes")).toBe(1);
     });
 
     it("toHours", () => {
       const time = chrono.milliseconds(1000 * 60 * 60);
+      const time2 = chrono.from(1000 * 60 * 60, "milliseconds");
+
       expect(time.toHours()).toBe(1);
+      expect(time.to("hours")).toBe(1);
+      expect(time2.toHours()).toBe(1);
+      expect(time2.to("hours")).toBe(1);
     });
 
     it("toDays", () => {
       const time = chrono.milliseconds(1000 * 60 * 60 * 24);
+      const time2 = chrono.from(1000 * 60 * 60 * 24, "milliseconds");
+
       expect(time.toDays()).toBe(1);
+      expect(time.to("days")).toBe(1);
+      expect(time2.toDays()).toBe(1);
+      expect(time2.to("days")).toBe(1);
     });
 
     it("toWeeks", () => {
       const time = chrono.milliseconds(1000 * 60 * 60 * 24 * 7);
+      const time2 = chrono.from(1000 * 60 * 60 * 24 * 7, "milliseconds");
+
       expect(time.toWeeks()).toBe(1);
+      expect(time.to("weeks")).toBe(1);
+      expect(time2.toWeeks()).toBe(1);
+      expect(time2.to("weeks")).toBe(1);
     });
 
     it("toMonths", () => {
       const time = chrono.milliseconds((1000 * 60 * 60 * 24 * 365) / 12);
+      const time2 = chrono.from(
+        (1000 * 60 * 60 * 24 * 365) / 12,
+        "milliseconds"
+      );
+
       expect(time.toMonths()).toBe(1);
+      expect(time.to("months")).toBe(1);
+      expect(time2.toMonths()).toBe(1);
+      expect(time2.to("months")).toBe(1);
     });
 
     it("toYears", () => {
       const time = chrono.milliseconds(1000 * 60 * 60 * 24 * 365);
+      const time2 = chrono.from(1000 * 60 * 60 * 24 * 365, "milliseconds");
+
       expect(time.toYears()).toBe(1);
+      expect(time.to("years")).toBe(1);
+      expect(time2.toYears()).toBe(1);
+      expect(time2.to("years")).toBe(1);
     });
   });
 
@@ -1078,5 +1121,105 @@ describe("subtract", () => {
       const result = time.subtract(ONE_YEAR_IN_YEARS, "years");
       expect(result.toYears()).toBe(chrono.years(24).toYears());
     });
+  });
+});
+
+describe("from", () => {
+  it("milliseconds", () => {
+    const time = chrono.from(1000, "milliseconds");
+    expect(time.toSeconds()).toBe(1);
+  });
+
+  it("seconds", () => {
+    const time = chrono.from(60, "seconds");
+    expect(time.toMinutes()).toBe(1);
+  });
+
+  it("minutes", () => {
+    const time = chrono.from(60, "minutes");
+    expect(time.toHours()).toBe(1);
+  });
+
+  it("hours", () => {
+    const time = chrono.from(24, "hours");
+    expect(time.toDays()).toBe(1);
+  });
+
+  it("days", () => {
+    const time = chrono.from(7, "days");
+    expect(time.toWeeks()).toBe(1);
+  });
+
+  it("weeks", () => {
+    const time = chrono.from(4.3451, "weeks");
+    expect(time.toMonths()).toBe(1);
+  });
+
+  it("months", () => {
+    const time = chrono.from(12, "months");
+    expect(time.toYears()).toBe(1);
+  });
+
+  it("years", () => {
+    const time = chrono.from(1, "years");
+    expect(time.toYears()).toBe(1);
+  });
+});
+
+describe("to", () => {
+  it("milliseconds", () => {
+    const time = chrono.milliseconds(1000);
+    const time2 = chrono.from(1000, "milliseconds");
+    expect(time.to("milliseconds")).toBe(1000);
+    expect(time2.to("milliseconds")).toBe(1000);
+  });
+
+  it("seconds", () => {
+    const time = chrono.seconds(1);
+    const time2 = chrono.from(1000, "seconds");
+    expect(time.to("seconds")).toBe(1);
+    expect(time2.to("seconds")).toBe(1000);
+  });
+
+  it("minutes", () => {
+    const time = chrono.minutes(1);
+    const time2 = chrono.from(60, "minutes");
+    expect(time.to("minutes")).toBe(1);
+    expect(time2.to("minutes")).toBe(60);
+  });
+
+  it("hours", () => {
+    const time = chrono.hours(1);
+    const time2 = chrono.from(60, "hours");
+    expect(time.to("hours")).toBe(1);
+    expect(time2.to("hours")).toBe(60);
+  });
+
+  it("days", () => {
+    const time = chrono.days(1);
+    const time2 = chrono.from(24, "days");
+    expect(time.to("days")).toBe(1);
+    expect(time2.to("days")).toBe(24);
+  });
+
+  it("weeks", () => {
+    const time = chrono.weeks(1);
+    const time2 = chrono.from(7, "weeks");
+    expect(time.to("weeks")).toBe(1);
+    expect(time2.to("weeks")).toBe(7);
+  });
+
+  it("months", () => {
+    const time = chrono.months(1);
+    const time2 = chrono.from(4.3451, "months");
+    expect(time.to("months")).toBe(1);
+    expect(time2.to("months")).toBe(4.3451);
+  });
+
+  it("years", () => {
+    const time = chrono.years(1);
+    const time2 = chrono.from(12, "years");
+    expect(time.to("years")).toBe(1);
+    expect(time2.to("years")).toBe(12);
   });
 });

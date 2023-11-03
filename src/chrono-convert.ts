@@ -190,14 +190,6 @@ class ChronoConvert {
     );
   }
 
-  multiply(value: number): ChronoConvert {
-    return new ChronoConvert(this.value * value);
-  }
-
-  divide(value: number): ChronoConvert {
-    return new ChronoConvert(this.value / value);
-  }
-
   /**
    * @example
    * const time = ChronoConvert.minutes(5).to('seconds');

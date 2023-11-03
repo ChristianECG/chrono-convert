@@ -1,6 +1,6 @@
 {
   "name": "chrono-convert",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Effortlessly manipulate and convert time units with Chrono: a fluent, chainable interface for clear and precise time calculations. Perfect for adding time-based logic to your applications with just a few lines of code.",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
